@@ -17,6 +17,7 @@ class Config(BaseModel):
         "Kaiheila",
     ]
     follow_withdraw_bot_blacklist: List[str] = []
+    follow_withdraw_plugin_blacklist: List[str] = []
 
 
 driver = get_driver()

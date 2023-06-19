@@ -6,7 +6,7 @@ from nonebot.typing import T_State
 from nonebot.permission import SUPERUSER
 from nonebot import on_notice, on_command
 from nonebot.plugin import PluginMetadata
-from nonebot.internal.matcher import current_event
+from nonebot.internal.matcher import current_event, current_matcher
 
 from . import adapters as adapters_module
 from .config import Config, withdraw_config
@@ -64,14 +64,23 @@ async def handle_save_message(
     if exception:
         return
     if bot.self_id in withdraw_config.follow_withdraw_bot_blacklist:
-        return False
+        return
+    try:
+        matcher = current_matcher.get()
+        if matcher.plugin_name in withdraw_config.follow_withdraw_plugin_blacklist:
+            return
+    except LookupError:
+        pass
+
     adapter_name = bot.adapter.get_name()
     if adapter_name not in withdraw_config.follow_withdraw_enable_adapters:
         return
     if not check_allow_api(adapter_name, api):
         return
-
-    event = current_event.get()
+    try:
+        event = current_event.get()
+    except LookupError:
+        return
     if (message := get_message(result, adapter_name)) and (
         origin_message := get_origin_message(event, adapter_name)
     ):
