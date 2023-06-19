@@ -56,8 +56,9 @@ nb plugin install nonebot-plugin-follow-withdraw
 
 | 配置名                         | 默认值                                                       | 说明                                                         |
 | ------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| folow_withdraw_all             | True                                                         | 为True时撤回所有(如果有多条)与该消息相关的消息，为False则是只撤回第一条 |
-| folow_withdraw_interval        | 0.5                                                          | 多条消息时的撤回间隔(单位秒)，以防止一瞬间撤回过多消息导致风控( |
-| folow_withdraw_enable_adapters | ["OneBot V11", "OneBot V12", "QQ Guild", "Discord", "Kaiheila"] | 启用的适配器类型列表，默认为所有已支持的适配器，可选值请看默认值 |
-| folow_withdraw_bot_blacklist   | []                                                           | 不启用跟随撤回的Bot列表，填写Bot的bot_id                     |
+| follow_withdraw_all             | True                                                         | 为True时撤回所有(如果有多条)与该消息相关的消息，为False则是只撤回第一条 |
+| follow_withdraw_interval        | 0.5                                                          | 多条消息时的撤回间隔(单位秒)，以防止一瞬间撤回过多消息导致风控( |
+| follow_withdraw_enable_adapters | ["OneBot V11", "OneBot V12", "QQ Guild", "Discord", "Kaiheila"] | 启用的适配器类型列表，默认为所有已支持的适配器，可选值请看默认值 |
+| follow_withdraw_bot_blacklist   | []                                                           | 不启用跟随撤回的Bot列表，填写Bot的bot_id                     |
 
+此外，本插件还提供了一个仅超级用户可使用的命令`清除消息记录`，来清除本插件记录的消息ID数据。

@@ -1,15 +1,16 @@
 import asyncio
 from typing import Any, List, Optional
 
-from nonebot import on_notice
 from nonebot.adapters import Bot
 from nonebot.typing import T_State
+from nonebot.permission import SUPERUSER
+from nonebot import on_notice, on_command
 from nonebot.plugin import PluginMetadata
 from nonebot.internal.matcher import current_event
 
 from . import adapters as adapters_module
 from .config import Config, withdraw_config
-from .model import FollowMessage, save_message
+from .model import FollowMessage, save_message, clear_message
 from .adapter import (
     check_event,
     get_message,
@@ -35,7 +36,8 @@ __plugin_meta__ = PluginMetadata(
 )
 
 
-withdraw_notice = on_notice(rule=check_event)
+withdraw_notice = on_notice(rule=check_event, priority=5)
+clear_cmd = on_command("清除消息记录", priority=5, permission=SUPERUSER)
 
 
 @withdraw_notice.handle()
@@ -44,9 +46,15 @@ async def handle_withdraw(bot: Bot, state: T_State):
     if messages:
         for message in messages:
             await withdraw_message(bot.adapter.get_name(), bot, message)
-            if not withdraw_config.folow_withdraw_all:
+            if not withdraw_config.follow_withdraw_all:
                 return
-            await asyncio.sleep(withdraw_config.folow_withdraw_interval)
+            await asyncio.sleep(withdraw_config.follow_withdraw_interval)
+
+
+@clear_cmd.handle()
+async def handle_clear_message():
+    await clear_message()
+    await clear_cmd.finish("清除完成")
 
 
 @Bot.on_called_api
@@ -55,10 +63,10 @@ async def handle_save_message(
 ):
     if exception:
         return
-    if bot.self_id in withdraw_config.folow_withdraw_bot_blacklist:
+    if bot.self_id in withdraw_config.follow_withdraw_bot_blacklist:
         return False
     adapter_name = bot.adapter.get_name()
-    if adapter_name not in withdraw_config.folow_withdraw_enable_adapters:
+    if adapter_name not in withdraw_config.follow_withdraw_enable_adapters:
         return
     if not check_allow_api(adapter_name, api):
         return
