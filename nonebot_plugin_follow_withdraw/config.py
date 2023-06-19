@@ -7,16 +7,16 @@ ADAPtER_NAME = Literal["OneBot V11", "OneBot V12", "QQ Guild", "Discord", "Kaihe
 
 
 class Config(BaseModel):
-    folow_withdraw_all: bool = True
-    folow_withdraw_interval: float = 0.5
-    folow_withdraw_enable_adapters: List[ADAPtER_NAME] = [
+    follow_withdraw_all: bool = True
+    follow_withdraw_interval: float = 0.5
+    follow_withdraw_enable_adapters: List[ADAPtER_NAME] = [
         "OneBot V11",
         "OneBot V12",
         "QQ Guild",
         "Discord",
         "Kaiheila",
     ]
-    folow_withdraw_bot_blacklist: List[str] = []
+    follow_withdraw_bot_blacklist: List[str] = []
 
 
 driver = get_driver()

@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional
 
 from nonebot import require
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import ForeignKey, delete, select
 from sqlalchemy.orm import Mapped, relationship, selectinload, mapped_column
 
 require("nonebot_plugin_datastore")
@@ -79,3 +79,10 @@ async def save_message(
             )
             session.add(origin_message)
             await session.commit()
+
+
+async def clear_message():
+    async with create_session() as session:
+        await session.execute(delete(OriginMessage))
+        await session.execute(delete(FollowMessage))
+        await session.commit()

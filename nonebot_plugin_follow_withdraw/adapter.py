@@ -83,10 +83,10 @@ async def withdraw_message(adapter_name: str, bot: Bot, message: FollowMessage):
 
 
 async def check_event(bot: Bot, event: Event, state: T_State) -> bool:
-    if bot.self_id in withdraw_config.folow_withdraw_bot_blacklist:
+    if bot.self_id in withdraw_config.follow_withdraw_bot_blacklist:
         return False
     adapter_name = bot.adapter.get_name()
-    if adapter_name not in withdraw_config.folow_withdraw_enable_adapters:
+    if adapter_name not in withdraw_config.follow_withdraw_enable_adapters:
         return False
     if func := _withdraw_rule.get(adapter_name):
         return await func(event, state)
