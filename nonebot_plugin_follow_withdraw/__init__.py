@@ -41,7 +41,6 @@ withdraw_notice = on_notice(rule=check_event)
 @withdraw_notice.handle()
 async def handle_withdraw(bot: Bot, state: T_State):
     messages: Optional[List[FollowMessage]] = state.get("follow_messages")
-    print("messages", messages)
     if messages:
         for message in messages:
             await withdraw_message(bot.adapter.get_name(), bot, message)
