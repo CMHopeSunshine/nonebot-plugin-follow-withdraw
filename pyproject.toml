@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-follow-withdraw"
-version = "0.1.2"
+version = "0.2.0"
 description = "A plugin for nonebot2 that follows the user's withdraw of a command."
 authors = ["CMHopeSunshine <277073121@qq.com>"]
 license = "MIT"
