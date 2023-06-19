@@ -54,7 +54,7 @@ async def save_message(
             .where(OriginMessage.adapter_name == adapter_name)
             .where(OriginMessage.message_id == origin_message_dict["message_id"])
             .where(OriginMessage.channel_id == origin_message_dict.get("channel_id"))
-        )
+        ).options(selectinload(OriginMessage.follow_messages))
         if result := await session.scalar(statement):
             follow_message = FollowMessage(
                 message_id=message_dict["message_id"],
